@@ -1,22 +1,13 @@
 <template>
     <div>
+
+
+        <!-- Div pour la carte Leaflet -->
+        <div id="map" style="height: 400px;"></div>
         <!-- Affiche les détails du voyage si la donnée "trip" existe -->
         <div v-if="trip">
-            <!-- Affiche le titre du voyage -->
-            <h1>{{ trip.prompt }}</h1>
-
             <!-- Affiche le contenu du voyage -->
             <p>{{ trip.output }}</p>
-
-            <!-- Formulaire pour mettre à jour le "prompt" du voyage -->
-            <form @submit.prevent="updateTrip">
-                <!-- Champ de saisie pour le nouveau "prompt" -->
-                <label for="prompt">New Prompt:</label>
-                <input type="text" id="prompt" v-model="newPrompt" />
-
-                <!-- Bouton de soumission du formulaire -->
-                <button type="submit">Update Trip</button>
-            </form>
         </div>
 
         <!-- Affiche un message "Loading..." si la donnée "trip" n'existe pas encore -->
@@ -25,6 +16,9 @@
 </template>
 
 <script>
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
 export default {
     // Données du composant
     data() {
@@ -33,7 +27,10 @@ export default {
             trip: null,
 
             // Donnée pour stocker le nouveau "prompt" du voyage
-            newPrompt: ""
+            newPrompt: "",
+
+            // Référence à la carte Leaflet
+            map: null
         };
     },
 
@@ -53,6 +50,9 @@ export default {
             // Convertit la réponse en JSON et stocke les données dans la donnée "trip"
             const data = await response.json();
             this.trip = data;
+
+            // Initialise la carte Leaflet
+            this.$nextTick(this.initMap); // Utilisation de $nextTick pour s'assurer que l'élément DOM est rendu
         } catch (error) {
             // Affiche l'erreur dans la console
             console.error("Fetch error:", error);
@@ -85,7 +85,30 @@ export default {
                 // Affiche l'erreur dans la console
                 console.error("Fetch error:", error);
             }
+        },
+
+        // Méthode pour initialiser la carte Leaflet
+        initMap() {
+            // Crée une instance de carte Leaflet dans un élément avec l'ID 'map'
+            this.map = L.map('map').setView([51.505, -0.09], 13);
+
+            // Ajoute une couche de tuiles OpenStreetMap à la carte
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(this.map);
+
+            // Ajoute un marqueur à une position spécifique sur la carte
+            L.marker([51.5, -0.09]).addTo(this.map)
+                .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+                .openPopup();
         }
     }
 };
 </script>
+
+<style>
+/* Styles spécifiques à la carte peuvent être ajoutés ici */
+#map {
+    width: 100%;
+}
+</style>

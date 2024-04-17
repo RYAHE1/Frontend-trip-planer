@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router"; // Importer useRouter depuis vue-router
+
 export default {
   // Données du composant
   data() {
@@ -89,13 +91,15 @@ export default {
         }
 
         // Convertit la réponse en JSON et ajoute le nouveau voyage à la liste des voyages
-
-
         const data = await response.json();
         this.trips.push(data);
 
         // Vide le champ de saisie 'prompt'
         this.prompt = "";
+
+        // Naviguer vers la page TripDetails.vue avec l'ID du nouveau voyage
+        const router = useRouter();
+        router.push(`/trips/${data.id}`);
 
       } catch (error) {
         // Affiche l'erreur dans la console
@@ -104,5 +108,4 @@ export default {
     },
   },
 };
-
 </script>
