@@ -51,6 +51,8 @@ export default {
             const data = await response.json();
             this.trip = data;
 
+            console.log("Trip data:", this.trip);
+
             // Initialise la carte Leaflet
             this.$nextTick(this.initMap); // Utilisation de $nextTick pour s'assurer que l'élément DOM est rendu
         } catch (error) {
