@@ -7,7 +7,13 @@
         <!-- Affiche les détails du voyage si la donnée "trip" existe -->
         <div v-if="trip">
             <!-- Affiche le contenu du voyage -->
-            <p>{{ trip.output }}</p>
+            <h2> {{ trip.prompt }} </h2>
+            <ul>
+                <li v-for="(step, index) in trip.output" :key="index">
+                    <h3>{{ step.name }}</h3>
+                    <p>{{ step.description }}</p>
+                </li>
+            </ul>
         </div>
 
         <!-- Affiche un message "Loading..." si la donnée "trip" n'existe pas encore -->
@@ -99,10 +105,19 @@ export default {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(this.map);
 
-            // Ajoute un marqueur à une position spécifique sur la carte
-            L.marker([51.5, -0.09]).addTo(this.map)
-                .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-                .openPopup();
+            // Crée un tableau pour stocker tous les marqueurs
+            const markers = [];
+
+            // Parcourt chaque étape du voyage et ajoute un marqueur à la carte
+            for (const step of this.trip.output) {
+                const marker = L.marker([step.location.latitude, step.location.longitude]).addTo(this.map);
+                marker.bindPopup(`<strong>${step.name}</strong><br>${step.description}`);
+                markers.push(marker);
+            }
+
+            // Ajuste la vue de la carte pour afficher tous les marqueurs
+            const bounds = L.latLngBounds(markers.map(marker => marker.getLatLng()));
+            this.map.fitBounds(bounds);
         }
     }
 };
