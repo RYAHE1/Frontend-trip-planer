@@ -15,10 +15,14 @@
         <input type="text" id="prompt" v-model="prompt" required class="prompt-input" />
 
         <!-- Bouton de soumission du formulaire -->
-        <button type="submit">Create Trip</button>
+        <button type="submit">C'est parti</button>
+
+        <!-- Bouton pour voir un exemple -->
+        <button type="button" @click="fillWithExample">Voir un exemple</button>
       </form>
 
       <!-- Liste non ordonnée des voyages -->
+      <h4>Derniers itinéraires</h4>
       <ul class="trip-list">
         <!-- Pour chaque voyage dans la donnée 'trips', affiche un élément de liste avec un lien vers la page de détail du voyage -->
         <li v-for="trip in trips" :key="trip.id" class="trip-item">
@@ -91,62 +95,105 @@ export default {
         console.error("Fetch error:", error);
       }
     },
+
+    // Méthode pour remplir l'input avec un exemple
+    fillWithExample() {
+      this.prompt = "Roadtrip d'une semaine en France à partir de Lyon";
+    }
   },
 };
 </script>
 
 <style scoped>
-/* Style pour les téléphones et les tablettes */
-@media (max-width: 768px) {
+/* Styles spécifiques aux téléphones et tablettes */
+@media only screen and (max-width: 768px) {
+  .trips {
+    padding: 10px;
+    background-color: #2F2E2B;
+    /* Couleur d'arrière-plan */
+  }
+
   .create-trip-form {
     margin-bottom: 20px;
+    text-align: center;
+    /* Centrer le contenu du formulaire */
+    background-color: #2F2E2B;
+    /* Couleur d'arrière-plan */
+    padding: 20px;
+    /* Ajouter un peu d'espace intérieur */
+    border-radius: 10px;
+    /* Bordures arrondies */
   }
 
-  .trip-list li {
-    margin-bottom: 10px;
-  }
-
-  /* Styles pour agrandir l'input, arrondir les bords et changer la couleur des bordures */
   .prompt-input {
     width: 100%;
-    height: 50px;
-    /* Ajustez la hauteur selon vos préférences */
-    font-size: 16px;
-    /* Ajustez la taille de la police selon vos préférences */
     padding: 10px;
-    /* Ajustez le remplissage selon vos préférences */
-    border: 1px solid #6D695E;
-    /* Changer la couleur des bordures */
-    border-radius: 8px;
-    /* Arrondir les bords */
-    box-sizing: border-box;
-    /* Garantit que la taille totale de l'élément inclut le remplissage et la bordure */
-    color: white;
-    /* Couleur du texte */
-  }
-
-  /* Style pour tous les éléments li de la liste */
-  .trip-item {
-    border: 1px solid #6D695E;
-    /* Ajouter un contour */
-    border-radius: 8px;
-    /* Arrondir les bords */
-    padding: 10px;
-    /* Ajouter un espace autour du contenu */
     margin-bottom: 10px;
-    /* Ajouter un espacement entre les éléments */
-    background-color: #262522;
-    /* Changer la couleur de fond */
     box-sizing: border-box;
-    /* Garantit que la taille totale de l'élément inclut le remplissage et la bordure */
-    color: white;
-    /* Couleur du texte */
+    border-radius: 10px;
+    /* Bordures arrondies */
+    border-color: #6D695E;
+    /* Couleur de la bordure */
+    border-width: 1px;
+    /* Épaisseur de la bordure */
+    background-color: #242321;
+    /* Couleur de fond de l'input */
+    color: #FFFFFF;
+    /* Couleur du texte de l'input */
   }
+}
 
-  /* Style pour le titre h1 */
-  h1 {
-    color: white;
-    /* Couleur du texte */
-  }
+/* Styles généraux */
+.loading {
+  font-size: 20px;
+  text-align: center;
+  /* Centrer le texte */
+  margin-top: 20px;
+}
+
+.trip-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.trip-item {
+  margin-bottom: 10px;
+  background-color: #242321;
+  /* Couleur de fond pour chaque élément de la liste */
+  padding: 10px;
+  /* Ajouter un peu d'espace intérieur */
+}
+
+.trip-item a {
+  text-decoration: none;
+  color: #FFFFFF;
+  /* Couleur du texte */
+  display: block;
+  /* Assurez-vous que les liens occupent toute la largeur disponible */
+  text-align: center;
+  /* Centrer le texte dans les liens */
+}
+
+/* Centrer les titres */
+h1,
+h2 {
+  text-align: center;
+}
+
+/* Centrer le bouton et définir la couleur et les bordures arrondies */
+.create-trip-form button {
+  display: block;
+  margin: 0 auto;
+  /* Centrer horizontalement */
+  background-color: #6D695E;
+  /* Couleur de fond du bouton */
+  color: #FFFFFF;
+  /* Couleur du texte du bouton */
+  border-radius: 10px;
+  /* Bordures arrondies */
+  box-shadow: none;
+  /* Enlever l'ombre */
+  padding: 15px 30px;
+  /* Augmenter la taille du bouton */
 }
 </style>

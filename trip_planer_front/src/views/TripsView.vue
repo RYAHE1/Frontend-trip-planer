@@ -1,7 +1,8 @@
 <template>
-    <div>
-        <h1>Liste des voyages</h1>
-        <Trips />
+    <div class="page-container">
+        <div class="Home">
+            <Trips />
+        </div>
     </div>
 </template>
 
@@ -15,3 +16,5 @@ export default {
     },
 };
 </script>
+
+<style scoped></style>

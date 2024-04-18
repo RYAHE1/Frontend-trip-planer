@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <h1>Détails du voyage</h1>
+    <div class="Home page-background">
         <TripDetails />
     </div>
 </template>
@@ -15,3 +14,5 @@ export default {
     },
 };
 </script>
+
+<style scoped></style>

@@ -1,13 +1,12 @@
 <template>
     <div>
-
-
         <!-- Div pour la carte Leaflet -->
-        <div id="map" style="height: 400px;"></div>
+        <div id="map"></div>
         <!-- Affiche les détails du voyage si la donnée "trip" existe -->
         <div v-if="trip">
             <!-- Affiche le contenu du voyage -->
             <h2> {{ trip.prompt }} </h2>
+            <button @click="goToHomePage">Modifier le prompt</button>
             <ul>
                 <li v-for="(step, index) in trip.output" :key="index">
                     <h3>{{ step.name }}</h3>
@@ -89,10 +88,15 @@ export default {
 
                 // Réinitialise le champ de saisie du nouveau "prompt"
                 this.newPrompt = "";
+                this.$router.push({ name: 'Trips', query: { prompt: this.trip.prompt } });
             } catch (error) {
                 // Affiche l'erreur dans la console
                 console.error("Fetch error:", error);
             }
+        },
+
+        goToHomePage() {
+            this.$router.push({ name: "Trips", query: { search: this.trip.prompt } });
         },
 
         // Méthode pour initialiser la carte Leaflet
@@ -123,9 +127,8 @@ export default {
 };
 </script>
 
-<style>
-/* Styles spécifiques à la carte peuvent être ajoutés ici */
+<style scoped>
 #map {
-    width: 100%;
+    height: 400px;
 }
 </style>
